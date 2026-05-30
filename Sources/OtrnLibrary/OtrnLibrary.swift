@@ -212,12 +212,22 @@ extension OtrnDocument {
 
         do {
             let jsonData = try encoder.encode(self)
-            try jsonData.write(to: url, options: .atomic)
+            try jsonData.writePortable(to: url)
             print("[\(filepath)] successfully wrote OTRN document.")
         } catch {
             print("[\(filepath)] error encoding or writing OTRN document: \(error.localizedDescription)")
             throw error
         }
+    }
+}
+
+private extension Data {
+    func writePortable(to url: URL) throws {
+        #if os(WASI)
+        try write(to: url)
+        #else
+        try write(to: url, options: .atomic)
+        #endif
     }
 }
 #endif
