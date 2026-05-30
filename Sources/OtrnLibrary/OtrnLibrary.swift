@@ -1,3 +1,4 @@
+#if canImport(Foundation)
 import Foundation
 
 public struct OtrnReply: Codable, Identifiable {
@@ -219,3 +220,4 @@ extension OtrnDocument {
         }
     }
 }
+#endif
